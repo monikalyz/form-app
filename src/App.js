@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { useState } from "react";
+import InputWrapper from "./InputWrapper";
 
 const App = () => {
   const [values, setValues] = useState({
@@ -29,6 +30,81 @@ const App = () => {
     }
   };
 
+  const logininputs = [
+    {
+      id: 1,
+      name: "loginemail",
+      type: "email",
+      errorMessage: "Wpisz poprawny adres email!",
+      label: "Email",
+      pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
+      placeholder: " ",
+    },
+    {
+      id: 2,
+      name: "loginpassword",
+      type: "password",
+      errorMessage:
+        "Hasło powinno mieć 8-20 znaków i zawierać co najmniej 1 literę, 1 cyfrę i 1 znak specjalny!",
+      label: "Hasło",
+      pattern:
+        "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$",
+      placeholder: " ",
+    },
+  ];
+
+  const registrationinputs = [
+    {
+      id: 1,
+      name: "registrationemail",
+      type: "email",
+      errorMessage: "Wpisz poprawny adres email!",
+      label: "Email",
+      pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
+      placeholder: " ",
+    },
+    {
+      id: 2,
+      name: "name",
+      type: "text",
+      errorMessage:
+        "Imię powinno mieć 3-16 znaków i nie powinno zawierać znaków specjalnych!",
+      label: "Imię",
+      pattern: "^[A-Za-z0-9]{3,16}$",
+      placeholder: " ",
+    },
+    {
+      id: 3,
+      name: "surname",
+      type: "text",
+      errorMessage:
+        "Nazwisko powinno mieć 3-16 znaków i nie powinno zawierać znaków specjalnych!",
+      label: "Nazwisko",
+      pattern: "^[A-Za-z0-9]{3,16}$",
+      placeholder: " ",
+    },
+    {
+      id: 4,
+      name: "registrationpassword",
+      type: "password",
+      errorMessage:
+        "Hasło powinno mieć 8-20 znaków i zawierać co najmniej 1 literę, 1 cyfrę i 1 znak specjalny!",
+      label: "Hasło",
+      pattern:
+        "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$",
+      placeholder: " ",
+    },
+    {
+      id: 5,
+      name: "confirmpassword",
+      type: "password",
+      errorMessage: "Hasła nie pasują!",
+      pattern: values.registrationpassword,
+      label: "Potwierdź hasło",
+      placeholder: " ",
+    },
+  ];
+
   return (
     <AppWrapper>
       <GlobalReset />
@@ -36,27 +112,16 @@ const App = () => {
         <label>
           Jesteś już użytkownikiem?
           <FormContent>
-            <label htmlFor="loginemail">
-              Email
-              <input
-                type="email"
-                id="loginemail"
-                name="loginemail"
+            {logininputs.map((input) => (
+              <InputWrapper
+                key={input.id}
+                {...input}
+                value={values[input.name]}
                 onChange={handleChange}
-                checked={values.loginemail}
+                placeholder=" "
+                required
               />
-            </label>
-            <label htmlFor="loginpassword">
-              Hasło
-              <input
-                type="password"
-                id="loginpassword"
-                name="loginpassword"
-                onChange={handleChange}
-                checked={values.loginpassword}
-              />
-            </label>
-
+            ))}
             <CheckboxContent>
               <input
                 type="checkbox"
@@ -78,58 +143,16 @@ const App = () => {
         <label>
           Jesteś tu pierwszy raz?
           <FormContent>
-            <label htmlFor="registrationemail">
-              Email
-              <input
-                type="email"
-                id="registrationemail"
-                name="registrationemail"
+            {registrationinputs.map((input) => (
+              <InputWrapper
+                key={input.id}
+                {...input}
+                value={values[input.name]}
                 onChange={handleChange}
-                checked={values.registrationemail}
+                placeholder=" "
+                required
               />
-            </label>
-
-            <label htmlFor="name">
-              Imię
-              <input
-                type="name"
-                id="name"
-                name="name"
-                onChange={handleChange}
-                checked={values.name}
-              />
-            </label>
-            <label htmlFor="surname">
-              Nazwisko
-              <input
-                type="password"
-                id="surname"
-                name="surname"
-                onChange={handleChange}
-                checked={values.surname}
-              />
-            </label>
-            <label htmlFor="registrationpassword">
-              Hasło
-              <input
-                type="password"
-                id="registrationpassword"
-                name="registrationpassword"
-                onChange={handleChange}
-                checked={values.registrationpassword}
-              />
-            </label>
-
-            <label htmlFor="confirmpassword">
-              Powtórz hasło
-              <input
-                type="confirmpassword"
-                id="confirmpassword"
-                name="confirmpassword"
-                onChange={handleChange}
-                checked={values.confirmpassword}
-              />
-            </label>
+            ))}
             <CheckboxContent>
               <input
                 type="checkbox"
