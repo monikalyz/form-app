@@ -3,6 +3,18 @@ import { useState } from "react";
 import InputWrapper from "./InputWrapper";
 
 const App = () => {
+  const [state, setState] = useState({
+    widthLoginForm: 55 + "%",
+    widthRegistrationForm: 45 + "%",
+    clickedLeft: true,
+    clickedRight: false,
+    bgColorBtnL: "#000",
+    txtColorBtnL: "#fff",
+    bgColorBtnR: "transparent",
+    txtColorBtnR: "#000",
+    heightLoginForm: 50 + "vh",
+  });
+
   const [values, setValues] = useState({
     loginemail: "",
     loginpassword: "",
@@ -105,74 +117,162 @@ const App = () => {
     },
   ];
 
+  const handleClickToLeft = (e) => {
+    setState({
+      ...state,
+      widthLoginForm: 55 + "%",
+      widthRegistrationForm: 45 + "%",
+      clickedLeft: true,
+      clickedRight: false,
+      bgColorBtnL: "#000",
+      txtColorBtnL: "#fff",
+      bgColorBtnR: "transparent",
+      txtColorBtnR: "#000",
+    });
+    setValues({
+      ...values,
+      registrationemail: "",
+      name: "",
+      surname: "",
+      registrationpassword: "",
+      confirmpassword: "",
+      registrationcheckbox: true,
+    });
+  };
+
+  const handleClickToRight = (e) => {
+    setState({
+      ...state,
+      widthLoginForm: 45 + "%",
+      widthRegistrationForm: 55 + "%",
+      clickedLeft: false,
+      clickedRight: true,
+      bgColorBtnR: "#000",
+      txtColorBtnR: "#fff",
+      bgColorBtnL: "transparent",
+      txtColorBtnL: "#000",
+    });
+    setValues({
+      ...values,
+      loginemail: "",
+      loginpassword: "",
+      logincheckbox: false,
+      registrationcheckbox: true,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      (values.loginemail.match(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$`) &&
+        values.loginpassword.match(
+          `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`
+        )) ||
+      (values.registrationemail.match(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$`) &&
+        values.name.match(`^[A-Za-z0-9]{3,16}$`) &&
+        values.surname.match(`^[A-Za-z0-9]{3,16}$`) &&
+        values.registrationpassword.match(
+          `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`
+        ) &&
+        values.confirmpassword === values.registrationpassword)
+    ) {
+      alert("formularz wypełniony poprawnie!");
+    }
+  };
+
   return (
     <AppWrapper>
       <GlobalReset />
-      <LoginForm>
+      <LoginForm
+        width={state.widthLoginForm}
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <label>
           Jesteś już użytkownikiem?
-          <FormContent>
-            {logininputs.map((input) => (
-              <InputWrapper
-                key={input.id}
-                {...input}
-                value={values[input.name]}
-                onChange={handleChange}
-                placeholder=" "
-                required
-              />
-            ))}
-            <CheckboxContent>
-              <input
-                type="checkbox"
-                id="login-checkbox"
-                name="logincheckbox"
-                onChange={handleChange}
-                checked={values.logincheckbox}
-              />
-              <label htmlFor="login-checkbox" className="gray">
-                Zapamiętaj moje hasło
-              </label>
-            </CheckboxContent>
-          </FormContent>
-          <Button>Zaloguj się</Button>
+          {state.clickedLeft ? (
+            <FormContent>
+              {logininputs.map((input) => (
+                <InputWrapper
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  onChange={handleChange}
+                  placeholder=" "
+                  required
+                />
+              ))}
+              <CheckboxContent>
+                <input
+                  type="checkbox"
+                  id="login-checkbox"
+                  name="logincheckbox"
+                  onChange={handleChange}
+                  checked={values.logincheckbox}
+                />
+                <label htmlFor="login-checkbox" className="gray">
+                  Zapamiętaj moje hasło
+                </label>
+              </CheckboxContent>
+            </FormContent>
+          ) : null}
+          <Button
+            bgCBtnL={state.bgColorBtnL}
+            txtColor={state.txtColorBtnL}
+            onClick={handleClickToLeft}
+          >
+            Zaloguj się
+          </Button>
+          {state.clickedLeft ? <Link>Nie pamiętam hasła?</Link> : null}
         </label>
       </LoginForm>
 
-      <RegistrationForm noValidate>
+      <RegistrationForm
+        width={state.widthRegistrationForm}
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <label>
           Jesteś tu pierwszy raz?
-          <FormContent>
-            {registrationinputs.map((input) => (
-              <InputWrapper
-                key={input.id}
-                {...input}
-                value={values[input.name]}
-                onChange={handleChange}
-                placeholder=" "
-                required
-              />
-            ))}
-            <CheckboxContent>
-              <input
-                type="checkbox"
-                id="checkbox"
-                name="registrationcheckbox"
-                onChange={handleChange}
-                required
-                checked={values.registrationcheckbox}
-              />
-              <label htmlFor="checkbox" className="gray">
-                Zgadzasz się z naszą <Link>Polityką prywatności</Link>
-                {!values.registrationcheckbox ? (
-                  <span className="error">
-                    Oznacz to pole, aby dokończyć rejestrację!
-                  </span>
-                ) : null}
-              </label>
-            </CheckboxContent>
-          </FormContent>
-          <SdButton>Załóż konto</SdButton>
+          {state.clickedRight ? (
+            <FormContent>
+              {registrationinputs.map((input) => (
+                <InputWrapper
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  onChange={handleChange}
+                  placeholder=" "
+                  required
+                />
+              ))}
+              <CheckboxContent>
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  name="registrationcheckbox"
+                  onChange={handleChange}
+                  required
+                  checked={values.registrationcheckbox}
+                />
+                <label htmlFor="checkbox" className="gray">
+                  Zgadzasz się z naszą <Link>Polityką prywatności</Link>
+                  {!values.registrationcheckbox ? (
+                    <span className="error">
+                      Oznacz to pole, aby dokończyć rejestrację!
+                    </span>
+                  ) : null}
+                </label>
+              </CheckboxContent>
+            </FormContent>
+          ) : null}
+          <SdButton
+            bgCBtnR={state.bgColorBtnR}
+            txtColor={state.txtColorBtnR}
+            onClick={handleClickToRight}
+          >
+            Załóż konto
+          </SdButton>
         </label>
       </RegistrationForm>
     </AppWrapper>
@@ -197,7 +297,7 @@ const AppWrapper = styled.div`
 `;
 
 const LoginForm = styled.form`
-  width: 50%;
+  width: ${(props) => props.width};
   height: 100vh;
   background-color: #fff;
   transition: 0.5s ease;
@@ -253,12 +353,12 @@ const FormContent = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: transparent;
+  background-color: ${(props) => props.bgCBtnL};
   margin: 30px 20px 40px 20px;
   padding: 5px 10px;
   width: 400px;
   cursor: pointer;
-  color: #000;
+  color: ${(props) => props.txtColor};
 
   &:hover {
     background-color: #000;
@@ -267,7 +367,7 @@ const Button = styled.button`
 `;
 
 const SdButton = styled(Button)`
-  background-color: transparent;
+  background-color: ${(props) => props.bgCBtnR};
 `;
 
 const Link = styled.a`
