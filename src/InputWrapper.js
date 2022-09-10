@@ -36,6 +36,14 @@ const Wrapper = styled.div`
   & > span {
     display: none;
     width: 400px;
+
+    @media (orientation: portrait) and (max-width: 600px) {
+      width: 300px;
+    }
+
+    @media (orientation: portrait) and (max-width: 300px) {
+      width: 200px;
+    }
   }
 
   & > input:invalid[focused="true"] {
@@ -67,6 +75,14 @@ const Wrapper = styled.div`
       linear-gradient(90deg, transparent, transparent) left bottom/100% 2px
         no-repeat;
     transition: background-size 0.3s ease;
+
+    @media (orientation: portrait) and (max-width: 600px) {
+      width: 300px;
+    }
+
+    @media (orientation: portrait) and (max-width: 300px) {
+      width: 200px;
+    }
   }
 
   & > input:focus {

@@ -294,6 +294,12 @@ const AppWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 1280px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const LoginForm = styled.form`
@@ -306,16 +312,50 @@ const LoginForm = styled.form`
   justify-content: center;
   align-items: center;
 
+  @media (max-width: 1280px) {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (orientation: portrait) {
+    width: 100%;
+    min-height: 40vh;
+  }
+
+  @media (orientation: portrait) and (max-width: 412px) {
+    min-height: 50vh;
+  }
+
   & > label {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 1280px) {
+      padding-top: 40px;
+    }
+
+    @media (orientation: portrait) and (max-width: 300px) {
+      font-size: 20px;
+    }
   }
 `;
 
 const RegistrationForm = styled(LoginForm)`
   background-color: #f2f2f2;
+
+  @media (orientation: portrait) {
+    height: 50vh;
+  }
+  @media (orientation: portrait) and (max-width: 600px) {
+    height: 80vh;
+    justify-content: flex-start;
+  }
+
+  @media (orientation: portrait) and (max-width: 390px) {
+    height: 90vh;
+  }
 `;
 
 const FormContent = styled.div`
@@ -360,6 +400,14 @@ const Button = styled.button`
   cursor: pointer;
   color: ${(props) => props.txtColor};
 
+  @media (orientation: portrait) and (max-width: 600px) {
+    width: 300px;
+  }
+
+  @media (orientation: portrait) and (max-width: 300px) {
+    width: 200px;
+  }
+
   &:hover {
     background-color: #000;
     color: #fff;
@@ -377,6 +425,10 @@ const Link = styled.a`
   font-weight: bold;
   letter-spacing: 1px;
   color: #000;
+
+  @media (max-width: 1280px) {
+    padding-bottom: 40px;
+  }
 `;
 
 const CheckboxContent = styled.div`
@@ -385,6 +437,14 @@ const CheckboxContent = styled.div`
   align-self: flex-start;
   width: 400px;
   margin-top: 10px;
+
+  @media (orientation: portrait) and (max-width: 600px) {
+    width: 300px;
+  }
+
+  @media (orientation: portrait) and (max-width: 300px) {
+    width: 200px;
+  }
 
   & > input {
     width: 20px;
